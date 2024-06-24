@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" oncontextmenu="return false;">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Beautifier</title>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      margin: 20px;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+    }
+    
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    #outputCode {
+      background-color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <h1> Code Beautifier </h1>
+  <div class="container">
+    <textarea id="inputCode" placeholder="Enter your code here..."></textarea></br> </br>
+    <button onclick="beautifyCode()">Beautify Code</button></br> </br>
+    <textarea id="outputCode" placeholder="Beautified code will appear here..." readonly></textarea>
+    </br> </br> </br> </br>
+    <button onclick="copyToClipboard()">Copy Result</button>
+    <footer>
+      <h3>&copy; 2022. Created by Rachid TOUNSY </h3>
+    </footer>
+  </div>
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js">
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/htmlmixed/htmlmixed.min.js">
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.0/beautify-html.min.js">
+  </script>
+  <script>
+    var inputEditor = CodeMirror.fromTextArea(document.getElementById('inputCode'), {
+      'lineNumbers': true,
+      'mode': 'htmlmixed',
+      'theme': 'default'
+    });
+    var outputEditor = CodeMirror.fromTextArea(document.getElementById('outputCode'), {
+      'lineNumbers': true,
+      'mode': 'htmlmixed',
+      'readOnly': true
+    });
+
+    function beautifyCode() {
+      var inputCode = inputEditor.getValue();
+      var beautifiedCode = html_beautify(inputCode, {
+        'indent_size': 2,
+        'wrap_line_length': 80,
+        'preserve_newlines': false
+      });
+      outputEditor.setValue(beautifiedCode);
+    }
+
+    function copyToClipboard() {
+      var beautifiedCode = outputEditor.getValue();
+      navigator.clipboard.writeText(beautifiedCode).then(function() {
+        //alert('Result copied to clipboard!');
+      }).catch(function(err) {
+        console.error('Unable to copy to clipboard', err);
+      });
+    }
+  </script>
+</body>
+
+</html>
